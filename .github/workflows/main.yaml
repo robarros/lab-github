@@ -34,6 +34,8 @@ jobs:
 
     - name: Deploy to Kubernetes
       run: |
+        echo ${{ secrets.KUBECONFIG }} | base64 --decode > kubeconfig.yaml
+        export KUBECONFIG=kubeconfig.yaml
         kubectl apply -f kubernetes/deployment.yaml # Adjust the path and file name
       env:
         KUBECONFIG: ${{ secrets.KUBECONFIG }} # Set up Kubernetes configuration secret
