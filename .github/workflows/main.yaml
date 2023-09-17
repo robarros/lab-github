@@ -21,7 +21,9 @@ jobs:
         DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
 
     - name: Build Docker Image
-      run: docker build --platform linux/amd64,linux/arm64 -t robarros/web-app:latest --push .
+      run: |
+        docker buildx create --use
+        docker build --platform linux/amd64,linux/arm64 -t robarros/web-app:latest --push .
 
     - name: Install kubectl
       run: |
