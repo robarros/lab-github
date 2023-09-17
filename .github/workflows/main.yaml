@@ -37,13 +37,19 @@ jobs:
         chmod +x kubectl
         sudo mv kubectl /usr/local/bin/
 
-    - name: Deploy to Kubernetes
-      run: |
-        echo ${{ secrets.KUBECONFIG }} | base64 --decode > kubeconfig.yaml
-        export KUBECONFIG=kubeconfig.yaml
-        kubectl apply -f kubernetes/deployment.yaml # Adjust the path and file name
-      env:
-        KUBECONFIG: ${{ secrets.KUBECONFIG }} 
+    # - name: Deploy to Kubernetes
+    #   run: |
+    #     echo ${{ secrets.KUBECONFIG }} | base64 --decode > kubeconfig.yaml
+    #     export KUBECONFIG=kubeconfig.yaml
+    #     kubectl apply -f kubernetes/deployment.yaml # Adjust the path and file name
+    #   env:
+    #     KUBECONFIG: ${{ secrets.KUBECONFIG }} 
+
+    - uses: danielr1996/kubectl-action@1.0.0
+      name: Deploy to Kubernetes
+      with:
+        kubeconfig: ${{ secrets.KUBECONFIG }} 
+        args: apply -f kubernetes/deployment.yaml
 
     - name: Clean up
       run: |
