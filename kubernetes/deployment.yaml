@@ -18,6 +18,7 @@ spec:
       containers:
         - name: web-app
           image: robarros/web-app:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 8080 # Replace with the port your app listens on
           # Add other container settings here if needed
