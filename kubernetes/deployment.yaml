@@ -1,0 +1,38 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-web
+  labels:
+    app: web
+spec:
+  replicas: 1 # Number of desired replicas
+  selector:
+    matchLabels:
+      app: web
+  template:
+    metadata:
+      labels:
+        app: web
+    spec:
+      containers:
+        - name: web-app
+          image: robarros/web-app:latest
+          ports:
+            - containerPort: 8080 # Replace with the port your app listens on
+          # Add other container settings here if needed
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: web-service
+spec:
+  selector:
+    app: web
+  ports:
+    - protocol: TCP
+      port: 80 # Replace with the port your app listens on
+      targetPort: 8080 # Replace with the container port
+
+
