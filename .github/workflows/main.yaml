@@ -42,6 +42,7 @@ jobs:
       with:
         config: ${{ secrets.KUBECONFIG }} 
         version: v1.25.0 
+        command: apply -f kubernetes/deployment.yaml
 
     - name: Clean up
       run: |
