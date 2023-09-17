@@ -31,11 +31,17 @@ jobs:
         docker buildx create --use
         docker buildx build --platform linux/amd64,linux/arm64 -t ${{ secrets.DOCKERHUB_USERNAME }}/web-app . --push
 
-    - uses: danielr1996/kubectl-action@1.0.0
-      name: Deploy to Kubernetes
+    # - uses: danielr1996/kubectl-action@1.0.0
+    #   name: Deploy to Kubernetes
+    #   with:
+    #     kubeconfig: ${{ secrets.KUBECONFIG }} 
+    #     args: apply -f kubernetes/deployment.yaml
+
+    - name: Deploy to Kubernetes
+      uses: steebchen/kubectl@v2.0.0
       with:
-        kubeconfig: ${{ secrets.KUBECONFIG }} 
-        args: apply -f kubernetes/deployment.yaml
+        config: ${{ secrets.KUBECONFIG }} 
+        version: v1.25.0 
 
     - name: Clean up
       run: |
